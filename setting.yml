@@ -1,0 +1,22 @@
+routing_list:
+  all_router:
+    user: username
+    key_file: /path/to_key/id_rsa
+    port: 22
+    list_ip:
+     - 192.168.0.1
+     - 192.168.1.1
+  my_test:
+    user: username
+    key_file: /path/to_key/id_rsa
+    port: 22
+    list_ip:
+      - 192.168.1.8
+command:
+  getNameRoute: /system identity print
+  createConfigFile: /export terse file=/backup/
+  createBackupFile: /system backup save name=/backup/
+  getRouteInfo: /system resource print
+setting:
+  dir_backup: /backup
+  dir_srv: /root/backup/
