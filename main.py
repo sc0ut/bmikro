@@ -17,12 +17,11 @@ TODO:
     TELEGRAM:
         Добавить возможность отправлять сообщения в бота
     CODE:
-        Сделать полный путь до config файла для cron'a
         Прикрутить логирование
 """
 
-yaml.warnings({'YAMLLoadWarning': False})
-config = yaml.load(open('/root/bmikro/setting.yml'))
+# yaml.warnings({'YAMLLoadWarning': False})
+config = yaml.load(open(os.getcwd() + '/setting.yml'))
 sshdd = paramiko.SSHClient()
 getNameRoute = config['command']['getNameRoute']
 createConfigFile = config['command']['createConfigFile']
@@ -67,23 +66,23 @@ def diff_file(i):
                             add_conf.append(line)
                         elif line[:1] == '-':
                             remove_conf.append(line)
-                if add_conf is None or remove_conf is None:
+            if add_conf is None or remove_conf is None:
+                pass
+            else:
+                if add_conf:
+                    msg.insert(1, 'Добавлено: \n')
+                    msg.extend(add_conf)
+                if remove_conf:
+                    msg.append('Удаленные: \n')
+                    msg.extend(remove_conf)
+                if not msg:
                     pass
                 else:
-                    if add_conf:
-                        msg.insert(1, 'Добавлено: \n')
-                        msg.extend(add_conf)
-                    if remove_conf:
-                        msg.append('Удаленные: \n')
-                        msg.extend(remove_conf)
-                    if not msg:
-                        pass
-                    else:
-                        msg.insert(0, routers + ' \n')
-                        send_mail(2, msg)
-
-            elif len(list_rsc) == 1:
-                print('А я говорил, прикрути ты уже логи...')
+                    msg.insert(0, routers + ' \n')
+                    send_mail(2, msg)
+                    msg = []
+                    remove_conf = []
+                    add_conf = []
 
 
 def download_backup(id_and_ip, user, key_file, new_port, now, i_key):
