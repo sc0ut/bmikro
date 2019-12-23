@@ -21,7 +21,7 @@ TODO:
 """
 
 # yaml.warnings({'YAMLLoadWarning': False})
-config = yaml.load(open(os.getcwd() + '/setting.yml'))
+config = yaml.load(open(os.path.abspath(os.curdir) + '/setting.yml'))
 sshdd = paramiko.SSHClient()
 getNameRoute = config['command']['getNameRoute']
 createConfigFile = config['command']['createConfigFile']
