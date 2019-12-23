@@ -20,8 +20,8 @@ TODO:
         Прикрутить логирование
 """
 
-# yaml.warnings({'YAMLLoadWarning': False})
-config = yaml.load(open(os.path.abspath(os.curdir) + '/setting.yml'))
+with open(os.path.abspath(os.curdir) + '/setting.yml') as f:
+    config = yaml.safe_load(f)
 sshdd = paramiko.SSHClient()
 getNameRoute = config['command']['getNameRoute']
 createConfigFile = config['command']['createConfigFile']
