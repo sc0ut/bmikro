@@ -31,12 +31,18 @@ dir_backup = config['setting']['dir_backup']
 dir_srv = config['setting']['dir_srv']
 
 
+#Временно для правильной сортировки файлов (Первая часть не сортировалась правильно)
+#Работает если запускать не реже чем раз в сутки.
+def sort_one(item):
+   return item[0:7]
+
+
 def clear_backup():
     for i in os.listdir(dir_srv):
         for ii in os.listdir(dir_srv + i):
             listing_delete = os.listdir(dir_srv + i + '/' + ii)
             while len(listing_delete) > 9:
-                listing_delete.sort()
+                listing_delete.sort(key=sort_one)
                 os.remove(dir_srv + i + '/' + ii + '/' + listing_delete[0])
                 listing_delete.pop(0)
 
@@ -54,7 +60,7 @@ def diff_file(i):
             for inn in list_file:
                 if inn.endswith('.rsc'):
                     list_rsc.append(inn)
-            list_rsc.sort()
+            list_rsc.sort(key=sort_one)
             if len(list_rsc) > 2:
                 t2 = open(dir_cursor + '/' + list_rsc[-1], 'r').readlines()
                 t1 = open(dir_cursor + '/' + list_rsc[-2], 'r').readlines()
@@ -114,7 +120,7 @@ def download_backup(id_and_ip, user, key_file, new_port, now, i_key):
                         if ee.endswith('.backup'):
                             listing_del.append(ee)
                     while len(listing_del) > 3:
-                        listing_del.sort()
+                        listing_del.sort(key=sort_one)
                         sftp.remove(dir_backup + '/' + listing_del[0])
                         listing_del.pop(0)
             sftp.close()
